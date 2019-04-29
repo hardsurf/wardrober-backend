@@ -32,8 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic()
             .and()
             .authorizeRequests()
-                .antMatchers("/health", "/signup").permitAll()
+                .antMatchers("/health", "/signup", "/dropdowns/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/**").authenticated()
+                .antMatchers("/clothes/{username}", "/clothes/{username}/**").access("hasAuthority(#username)")
             .and()
                 .csrf().disable()
                 .formLogin().disable();
