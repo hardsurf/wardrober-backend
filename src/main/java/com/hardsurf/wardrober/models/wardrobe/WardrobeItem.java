@@ -17,7 +17,7 @@ public class WardrobeItem {
                         RgbColor color,
                         @NotNull @NotEmpty String name) {
         this.season = Season.byId(season);
-        this.type = WardrobeItemType.valueOf(type);
+        this.type = WardrobeItemType.byName(type);
         this.color = color;
         this.name = name;
     }

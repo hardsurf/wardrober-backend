@@ -24,17 +24,17 @@ public class WardrobeController {
 
     @GetMapping("/dropdowns/bodyparts")
     public List<BodyPart> bodyParts() {
-        return Arrays.asList(BodyPart.values());
+        return BodyPart.BodyParts.enumeration.values();
     }
 
     @GetMapping("/dropdowns/clothestypes")
     public List<WardrobeItemType> clothesTypes() {
-        return Arrays.asList(WardrobeItemType.values());
+        return WardrobeItemType.WardrobeItemTypes.enumeration.values();
     }
 
     @GetMapping("/dropdowns/seasons")
     public List<Season> seasons() {
-        return Arrays.asList(Season.values());
+        return Season.Seasons.enumeration.values();
     }
 
     @GetMapping("/clothes/{username}")
@@ -45,7 +45,7 @@ public class WardrobeController {
     @GetMapping("/clothes/{username}/{season}")
     public List<WardrobeItem> wardrobeForSeason(@PathVariable @NotNull @NotEmpty String username,
                                                 @PathVariable @NotNull @NotEmpty String season) {
-        return wardrobeService.wardrobeBySeason(username, Season.valueOf(season));
+        return wardrobeService.wardrobeBySeason(username, Season.byId(season));
     }
 
     @PostMapping("/clothes/{username}")
