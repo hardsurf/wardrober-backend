@@ -2,17 +2,31 @@ package com.hardsurf.wardrober.models.wardrobe;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class WardrobeItemType {
 
     private String id;
     private String icon;
     private BodyPart bodyPart;
+    private Collection<String> dependsOn;
+    private Collection<String> mayDependOn;
 
-    private WardrobeItemType(String id, String icon, BodyPart bodyPart) {
+    public WardrobeItemType(String id, String icon, BodyPart bodyPart, Collection<String> dependsOn, Collection<String> mayDependOn) {
         this.id = id;
         this.icon = icon;
         this.bodyPart = bodyPart;
+        this.dependsOn = dependsOn;
+        this.mayDependOn = mayDependOn;
+    }
+
+    public WardrobeItemType(String id, String icon, BodyPart bodyPart, Collection<String> mayDependOn) {
+        this(id, icon, bodyPart, Collections.EMPTY_LIST, mayDependOn);
+    }
+
+    private WardrobeItemType(String id, String icon, BodyPart bodyPart) {
+        this(id, icon, bodyPart, Collections.EMPTY_LIST, Collections.EMPTY_LIST);
     }
 
     public String getId() {
@@ -39,6 +53,22 @@ public class WardrobeItemType {
         this.bodyPart = bodyPart;
     }
 
+    public Collection<String> getDependsOn() {
+        return dependsOn;
+    }
+
+    public void setDependsOn(Collection<String> dependsOn) {
+        this.dependsOn = dependsOn;
+    }
+
+    public Collection<String> getMayDependOn() {
+        return mayDependOn;
+    }
+
+    public void setMayDependOn(Collection<String> mayDependOn) {
+        this.mayDependOn = mayDependOn;
+    }
+
     public static class WardrobeItemTypes {
         public final static Enumeration<WardrobeItemType> enumeration = new Enumeration<>(
                 new WardrobeItemType("T-Shirt", "tshirt.svg", BodyPart.byId("Torso")),
@@ -48,7 +78,10 @@ public class WardrobeItemType {
                 new WardrobeItemType("Mittens", BodyPart.byId("Hands")),
                 new WardrobeItemType("Sun glasses", "sunglasses.svg", BodyPart.byId("Head")),
                 new WardrobeItemType("Beanie", BodyPart.byId("Head")),
-                new WardrobeItemType("Shirt", BodyPart.byId("Torso"))
+                new WardrobeItemType("Shirt", "shirt.svg", BodyPart.byId("Torso"),
+                        Collections.singletonList("T-Shirt")),
+                new WardrobeItemType("Anorak", "anorak.svg", BodyPart.byId("Torso"),
+                        Arrays.asList("T-Shirt", "Shirt"), Collections.EMPTY_LIST)
                 // TODO: fill in
         );
     }

@@ -8,6 +8,8 @@ import com.hardsurf.wardrober.persistence.dto.WardrobeItemDto;
 import com.hardsurf.wardrober.persistence.repository.UserRepository;
 import com.hardsurf.wardrober.persistence.repository.WardrobeRepository;
 import com.hardsurf.wardrober.persistence.service.WardrobeService;
+import com.hardsurf.wardrober.utils.ClothesCombiner;
+import com.hardsurf.wardrober.utils.ClothesCombinerArgs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -79,4 +81,12 @@ public class WardrobeServiceImpl implements WardrobeService {
         wardrobeRepo.delete(item);
     }
 
+    @Override
+    public List<WardrobeItem> clothesPack(@NotNull @NotEmpty String email) {
+        return ClothesCombiner.combine(new ClothesCombinerArgs(
+                20d,
+                20d,
+                wardrobeByEmail(email)
+        ));
+    }
 }

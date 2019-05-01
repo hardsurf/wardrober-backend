@@ -17,4 +17,5 @@ public interface WardrobeService {
     void create(@NotNull @NotEmpty String userEmail, WardrobeItem wardrobeItem) throws UsernameNotFoundException;
     void delete(@NotNull @NotEmpty String userEmail, @NotNull @NotEmpty String byItemName)
             throws UsernameNotFoundException, ItemNotFoundException;
+    List<WardrobeItem> clothesPack(@NotNull @NotEmpty String email);
 }
