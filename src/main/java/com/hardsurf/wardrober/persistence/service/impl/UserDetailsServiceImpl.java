@@ -10,7 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service(value = "DB_DETAILS")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -40,7 +41,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         true,
                         true,
                         true,
-                        Collections.singletonList(new SimpleGrantedAuthority("USER")));
+                        Stream.of("USER", user.getEmail())
+                              .map(SimpleGrantedAuthority::new)
+                              .collect(Collectors.toList())
+        );
     }
 
 }
