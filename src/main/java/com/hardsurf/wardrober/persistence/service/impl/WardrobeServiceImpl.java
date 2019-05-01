@@ -1,6 +1,8 @@
 package com.hardsurf.wardrober.persistence.service.impl;
 
 import com.hardsurf.wardrober.exceptions.ItemNotFoundException;
+import com.hardsurf.wardrober.exceptions.WeatherFetchException;
+import com.hardsurf.wardrober.models.WeatherModel;
 import com.hardsurf.wardrober.models.wardrobe.Season;
 import com.hardsurf.wardrober.models.wardrobe.WardrobeItem;
 import com.hardsurf.wardrober.persistence.dto.UserDto;
@@ -8,6 +10,7 @@ import com.hardsurf.wardrober.persistence.dto.WardrobeItemDto;
 import com.hardsurf.wardrober.persistence.repository.UserRepository;
 import com.hardsurf.wardrober.persistence.repository.WardrobeRepository;
 import com.hardsurf.wardrober.persistence.service.WardrobeService;
+import com.hardsurf.wardrober.persistence.service.WeatherService;
 import com.hardsurf.wardrober.utils.ClothesCombiner;
 import com.hardsurf.wardrober.utils.ClothesCombinerArgs;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +27,14 @@ public class WardrobeServiceImpl implements WardrobeService {
 
     private WardrobeRepository wardrobeRepo;
     private UserRepository userRepo;
+    private WeatherService weatherService;
 
     public WardrobeServiceImpl(@Autowired WardrobeRepository wardrobeRepo,
-                               @Autowired UserRepository userRepo) {
+                               @Autowired UserRepository userRepo,
+                               @Autowired WeatherService weatherService) {
         this.wardrobeRepo = wardrobeRepo;
         this.userRepo = userRepo;
+        this.weatherService = weatherService;
     }
 
     @Override
@@ -82,10 +88,12 @@ public class WardrobeServiceImpl implements WardrobeService {
     }
 
     @Override
-    public List<WardrobeItem> clothesPack(@NotNull @NotEmpty String email) {
+    public List<WardrobeItem> clothesPack(@NotNull @NotEmpty String email,
+                                          @NotNull @NotEmpty String location) throws WeatherFetchException {
+        WeatherModel weather = weatherService.getWeather(location);
         return ClothesCombiner.combine(new ClothesCombinerArgs(
-                20d,
-                20d,
+                weather.getTemperature(),
+                weather.getPercipitation(),
                 wardrobeByEmail(email)
         ));
     }
