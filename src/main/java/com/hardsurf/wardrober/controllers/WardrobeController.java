@@ -42,9 +42,10 @@ public class WardrobeController {
         return wardrobeService.wardrobeByEmail(username);
     }
 
-    @GetMapping("/clothes/{username}/generate")
-    public List<WardrobeItem> generateClothesPack(@PathVariable @NotNull @NotEmpty String username) {
-        return wardrobeService.clothesPack(username);
+    @GetMapping("/clothes/{username}/generate/{location}")
+    public List<WardrobeItem> generateClothesPack(@PathVariable @NotNull @NotEmpty String username,
+                                                  @PathVariable @NotNull @NotEmpty String location) {
+        return wardrobeService.clothesPack(username, location);
     }
 
     @GetMapping("/clothes/{username}/{season}")
