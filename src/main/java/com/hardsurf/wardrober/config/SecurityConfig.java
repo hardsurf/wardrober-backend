@@ -37,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/clothes/{username}", "/clothes/{username}/**").access("hasAuthority(#username)")
             .and()
                 .csrf().disable()
-                .formLogin().disable();
+                .formLogin().disable()
+                .cors().disable();
     }
 
     @Override
