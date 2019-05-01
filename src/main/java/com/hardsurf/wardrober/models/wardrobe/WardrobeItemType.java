@@ -71,23 +71,22 @@ public class WardrobeItemType {
 
     public static class WardrobeItemTypes {
         public final static Enumeration<WardrobeItemType> enumeration = new Enumeration<>(
-                new WardrobeItemType("T-Shirt", "tshirt.svg", BodyPart.byId("Torso")),
-                new WardrobeItemType("Jeans", BodyPart.byId("Legs")),
-                new WardrobeItemType("Sneakers", BodyPart.byId("Shoes")),
+                new WardrobeItemType("T-Shirt", "tshirt", BodyPart.byId("Torso")),
+                new WardrobeItemType("Slippers", "shlepky", BodyPart.byId("Shoes")),
                 new WardrobeItemType("Trousers", BodyPart.byId("Legs")),
-                new WardrobeItemType("Mittens", BodyPart.byId("Hands")),
-                new WardrobeItemType("Sun glasses", "sunglasses.svg", BodyPart.byId("Head")),
+                new WardrobeItemType("Sun glasses", "sunglasses", BodyPart.byId("Head")),
                 new WardrobeItemType("Beanie", BodyPart.byId("Head")),
-                new WardrobeItemType("Shirt", "shirt.svg", BodyPart.byId("Torso"),
+                new WardrobeItemType("Shirt", "shirt", BodyPart.byId("Torso"),
                         Collections.singletonList("T-Shirt")),
-                new WardrobeItemType("Anorak", "anorak.svg", BodyPart.byId("Torso"),
+                new WardrobeItemType("Cap", "hat", BodyPart.byId("Head")),
+                new WardrobeItemType("Winter jacket", "winter_jacket", BodyPart.byId("Torso"),
                         Arrays.asList("T-Shirt", "Shirt"), Collections.EMPTY_LIST)
                 // TODO: fill in
         );
     }
 
     private WardrobeItemType(String id, BodyPart bodyPart) {
-        this(id, id.toLowerCase() + ".svg", bodyPart);
+        this(id, id.toLowerCase(), bodyPart);
     }
 
     public String getIconName() {
