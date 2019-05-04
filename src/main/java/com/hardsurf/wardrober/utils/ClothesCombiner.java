@@ -22,9 +22,15 @@ public class ClothesCombiner {
                 .map(Collections::singletonList)
                 .collect(Collectors.toList());
 
-        Map<WardrobeItemType, WardrobeItem> lookup = filteredByPart.stream().collect(Collectors.toMap(
+        Map<WardrobeItemType, List<WardrobeItem>> lookup = filteredByPart.stream().collect(Collectors.toMap(
                 WardrobeItem::getType,
-                Function.identity()
+                Collections::singletonList,
+                (left, right) -> {
+                    List<WardrobeItem> copy = new LinkedList<>();
+                    copy.addAll(left);
+                    copy.addAll(right);
+                    return left;
+                }
         ));
 
         List<List<WardrobeItem>> withSatisfiedDependencies = filteredByPart.stream()
@@ -38,7 +44,7 @@ public class ClothesCombiner {
                             .stream()
                             .map(WardrobeItemType::byName)
                             .filter(lookup::containsKey)
-                            .map(lookup::get)
+                            .flatMap(key -> lookup.get(key).stream())
                             .collect(Collectors.toList());
 
                     if (satisfiedDeps.isEmpty()) {
